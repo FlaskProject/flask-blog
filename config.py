@@ -20,7 +20,7 @@ class Config:
     FLASKY_SLOW_DB_QUERY_TIME=0.5
 
     @staticmethod
-    def init_app():
+    def init_app(app):
         pass
 
 class DevelopmentConfig(Config):
