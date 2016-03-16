@@ -1,4 +1,4 @@
-from flask import flask
+from flask import Flask
 from flask.ext.bootstrap import Bootstrap
 from flask.ext.mail import Mail
 from flask.ext.moment import Moment
@@ -8,7 +8,7 @@ from config import config
 
 bootstrap = Bootstrap()
 mail = Mail()
-moment = Moment
+moment = Moment()
 db = SQLAlchemy()
 
 login_manager = LoginManager()

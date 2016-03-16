@@ -30,7 +30,7 @@ class RegistrationForm(Form):
         if User.query.filter_by(username=field.data).first():
             raise ValidationError('Username already in use.')
 
-class ChangePasswordFrom(From):
+class ChangePasswordForm(Form):
     old_password = PasswordField('Old password', validators=[Required()])
     password = PasswordField('New password', validators=[
         Required(), EqualTo('password2', message='Passwords must match')])
@@ -41,7 +41,7 @@ class PasswordRestRequestForm(Form):
     email = StringField('Email', validators=[Required(), Length(1, 64), Email()])
     submit = SubmitField('Reset Password')
 
-class PasswordResetForm(From):
+class PasswordResetForm(Form):
     email = StringField('Email', validators=[Required(), Length(1, 64), Email()])
     password = PasswordField('New Password', validators=[
         Required(), EqualTo('password2', message='Passwords must match')])
@@ -52,7 +52,7 @@ class PasswordResetForm(From):
         if User.query.filter_by(email=field.data).first() is None:
             raise ValidationError('Unknown email address.')
 
-class ChangeEmailFrom(From):
+class ChangeEmailForm(Form):
     email = StringField('New Email', validators=[Required(), Length(1, 64), Email()])
     password = PasswordField('Password', validators=[Required()])
     submit = SubmitField('Update Email Address')
