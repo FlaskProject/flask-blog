@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*
 from flask import Flask
 from flask.ext.bootstrap import Bootstrap
 from flask.ext.mail import Mail

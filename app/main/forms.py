@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*
 from flask.ext.wtf import From
 from wtforms import StringField, SubmitField
 from wtforms.validators import Required

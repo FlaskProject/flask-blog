@@ -1,6 +1,6 @@
+# -*- coding: UTF-8 -*
 from flask import render_template, redirect, request, url_for, flash
-from flask.ext.login import login_user, logout_user, login_required, \
-    current_user
+from flask.ext.login import login_user, logout_user, login_required, current_user
 from . import auth
 from .. import db
 from ..models import  User
@@ -58,7 +58,7 @@ def register():
         send_email(user.email, 'Confirm Your Account',
                    'auth/email/confirm', user=user, token=token)
         flash('A confirmation email has been sent to you by email.')
-        return redirect('auth/register.html', form=form)
+        return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form=form)
 
 
