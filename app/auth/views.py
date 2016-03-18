@@ -5,16 +5,17 @@ from . import auth
 from .. import db
 from ..models import  User
 from ..email import send_email
-from .forms import LoginForm, RegistrationForm, ChangePasswordForm,\
+from .forms import LoginForm, RegistrationForm, ChangePasswordForm, \
     PasswordRestRequestForm, PasswordResetForm, ChangeEmailForm
 
 @auth.before_app_request
 def before_request():
-    if current_user.is_authenticated \
-        and not current_user.confirmed \
-        and request.endpoint[:5] != 'auth.' \
-        and request.endpoint != 'static':
-        return redirect(url_for('auth.unconfirmed'))
+    if current_user.is_authenticated:
+        current_user.ping()
+        if not current_user.confirmed \
+                and request.endpoint[:5] != 'auth.' \
+                and request.endpoint != 'static':
+            return redirect(url_for('auth.unconfirmed'))
 
 
 @auth.route('/unconfirmed')
@@ -87,7 +88,7 @@ def resend_confirmation():
 @auth.route('/change-password', methods=['GET', 'POST'])
 @login_required
 def change_password():
-    form = ChangePasswordFrom()
+    form = ChangePasswordForm()
     if form.validate_on_submit():
         if current_user.verify_password(form.old_password.data):
             current_user.password = form.password.data
@@ -138,7 +139,7 @@ def password_reset(token):
 @auth.route('/change-email', methods=['GET', 'POST'])
 @login_required
 def change_email_request():
-    form = ChangeEmailFrom()
+    form = ChangeEmailForm()
     if form.validate_on_submit():
         if current_user.verify_password(form.password.data):
             new_email = form.email.data

@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*
+
 from functools import wraps
 from flask import abort
 from flask.ext.login import current_user
@@ -13,7 +14,9 @@ def permission_required(permission):
             if not current_user.can(permissions):
                 abort(403)
             return f(*args, **kwargs)
-        return decorator
+        return decorated_function
+    return decorator
 
 def admin_required(f):
     return permission_required(Permission.ADMINISTER)(f)
+
