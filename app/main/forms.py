@@ -4,6 +4,7 @@ from wtforms import StringField, SubmitField, TextAreaField,\
     SelectField, BooleanField
 from wtforms.validators import Required, Length, Email, Regexp
 from wtforms import ValidationError
+from wtforms.fields import  FileField
 
 from ..models import Role, User
 
@@ -17,6 +18,10 @@ class EditProfileForrm(Form):
     name = StringField('Real name', validators=[Length(0, 64)])
     location = StringField('Location', validators=[Length(0, 64)])
     about_me = TextAreaField('About me')
+    '''
+    image = FileField('Image File', validators=[Regexp('.+?\.[jpg|png]', 0,
+                                                       'image must be jpg or png type.')])
+    '''
     submit = SubmitField('Submit')
 
 # 管理员编辑

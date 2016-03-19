@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*
-from flask import render_template, abort, redirect, url_for, flash
+import uuid, os
+from flask import render_template, abort, redirect, url_for, flash, request
 from flask.ext.login import login_required, current_user
 
 from . import main
@@ -30,7 +31,7 @@ def edit_profile():
         db.session.add(current_user)
         db.session.commit()
         flash('Your profile has been updated.')
-        return redirect('.user', username=current_user)
+        return redirect(url_for('.user', username=current_user.username))
     form.name.data = current_user.name
     form.location.data = current_user.location
     form.about_me.data = current_user.about_me

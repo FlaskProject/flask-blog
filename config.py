@@ -2,13 +2,14 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     SSL_DISABLE = False
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_RECORD_QUERIES = True
-    MAIL_SERVER = os.environ.get['MAIL_SERVER']
-    MAIL_PORT = os.environ.get['MAIL_PORT']
+    MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'smtp.sina.com'
+    MAIL_PORT = os.environ.get('MAIL_PORT') or 25
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')

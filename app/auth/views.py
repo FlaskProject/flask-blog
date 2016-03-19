@@ -1,12 +1,15 @@
 # -*- coding: UTF-8 -*
 from flask import render_template, redirect, request, url_for, flash
 from flask.ext.login import login_user, logout_user, login_required, current_user
+from flask.ext.uploads import UploadSet, UploadNotAllowed, IMAGES
 from . import auth
 from .. import db
 from ..models import  User
 from ..email import send_email
 from .forms import LoginForm, RegistrationForm, ChangePasswordForm, \
     PasswordRestRequestForm, PasswordResetForm, ChangeEmailForm
+
+photos = UploadSet('photos', IMAGES)
 
 @auth.before_app_request
 def before_request():
@@ -84,7 +87,22 @@ def resend_confirmation():
     flash('A new confirmation email has been sent to you by email.')
     return redirect(url_for('main.index'))
 
+# 用户修改头像
+@auth.route('/change-image', methods=['GET', 'POST'])
+@login_required
+def change_image():
+    if request.method == 'POST' and 'photo' in request.files:
+        try:
+            filename = photos.save(request.files['photo'])
+        except UploadNotAllowed:
+            flash('The upload was not allowed.')
+        finally:
+            flash('Upload successful.')
+        return redirect(url_for('main.index'))
+    return render_template('auth/change_image.html')
 
+
+# 用户修改密码
 @auth.route('/change-password', methods=['GET', 'POST'])
 @login_required
 def change_password():
@@ -136,6 +154,7 @@ def password_reset(token):
     return render_template('auth/reset_password.html', form=form)
 
 
+# 用户修改邮箱
 @auth.route('/change-email', methods=['GET', 'POST'])
 @login_required
 def change_email_request():
@@ -149,12 +168,12 @@ def change_email_request():
                        user=current_user, token=token)
             flash('An email with instructions to confirm your new email '
                   'address has been sent to you.')
-            return redirect(url_for(main.index))
+            return redirect(url_for('main.index'))
         else:
             flash('Invalid email or password.')
     return render_template("auth/change_email.html", form=form)
 
-
+# 用户确认邮箱修改链接
 @auth.route('/change-email/<token>')
 @login_required
 def change_email(token):

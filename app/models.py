@@ -72,6 +72,7 @@ class User(UserMixin, db.Model):
     about_me = db.Column(db.Text())
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
+    image_url = db.Column(db.String(255))
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -137,9 +138,9 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         return True
 
-    def genetate_email_change_token(self, new_email, expiration=3600):
+    def generate_email_change_token(self, new_email, expiration=3600):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
-        return s.dump({'change_email': self.id, 'new_email': new_email})
+        return s.dumps({'change_email': self.id, 'new_email': new_email})
 
     def change_email(self, token):
         s = Serializer(current_app.config['SECRET_KEY'])

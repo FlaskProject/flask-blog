@@ -32,7 +32,7 @@
                 {% if current_user.is_authenticated %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="/static/test.jpg">
+                        <img src="/static/{{ current_user.image_url }}">
                         Account <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">

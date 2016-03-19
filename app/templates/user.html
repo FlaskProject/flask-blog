@@ -4,7 +4,7 @@
 
 {% block page_content %}
 <div class="page-header">
-    <img class="img-rounded profile-thumbnail" src="/static/test.jpg">
+    <img class="img-rounded profile-thumbnail" src="/static/{{ user.image_url }}" >
     <div class="profile-header">
         <h1>{{ user.username }}</h1>
         {% if user.name or user.location %}
